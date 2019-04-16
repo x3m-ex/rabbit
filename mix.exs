@@ -18,6 +18,8 @@ defmodule X3m.Rabbit.MixProject do
   end
 
   defp _deps do
-    []
+    [
+      {:amqp, "~> 1.1"}
+    ]
   end
 end
