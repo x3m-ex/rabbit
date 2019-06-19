@@ -81,17 +81,25 @@ defmodule X3m.Rabbit.Listener do
     retry = fn -> Basic.reject(channel, tag, requeue: true) end
 
     headers =
-      if is_list(headers) do
-        Enum.reduce(headers, %{}, fn {k, _, v}, acc -> Map.put(acc, String.to_atom(k), v) end)
-      else
-        %{}
-      end
+      headers
+      |> Enum.map(fn
+        {k, v} when is_binary(k) ->
+          {String.to_atom(k), v}
+
+        {k, _, v} when is_binary(k) ->
+          {String.to_atom(k), v}
+
+        _other ->
+          Logger.warn(fn -> "Can't map headers into metadata: #{inspect(headers)}" end)
+          []
+      end)
 
     _consume(route, body, headers, redelivered?, ack, nack, retry, event_processor)
   end
 
   defp _consume(route, payload, headers, redelivered?, ack, nack, retry, event_processor) do
     Logger.metadata(headers)
+    Logger.info(fn -> "Processing message on route #{inspect(route)}" end)
 
     case event_processor.process(route, payload,
            redelivered?: redelivered?,
@@ -101,18 +109,18 @@ defmodule X3m.Rabbit.Listener do
            listener: self()
          ) do
       :ok ->
-        Logger.debug(fn -> "Acking message" end)
+        Logger.info(fn -> "Acking message" end)
         :ok = ack.()
 
       {:error, :discard_message} ->
-        Logger.debug(fn -> "Nacking message" end)
+        Logger.info(fn -> "Nacking message" end)
         :ok = nack.()
 
       :accepted ->
         Logger.debug(fn -> "Processor will ack/nack message. We have to move on..." end)
 
       _ ->
-        Logger.debug(fn -> "Returning message for redelivery" end)
+        Logger.warn(fn -> "Returning message for redelivery" end)
         :ok = retry.()
     end
 

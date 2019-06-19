@@ -4,7 +4,7 @@ defmodule X3m.Rabbit.MixProject do
   def project do
     [
       app: :x3m_rabbit,
-      version: "0.1.1",
+      version: "0.1.2",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/x3m-ex/rabbit",
@@ -24,7 +24,7 @@ defmodule X3m.Rabbit.MixProject do
 
   defp _deps do
     [
-      {:amqp, "~> 1.1"},
+      {:amqp, "~> 1.2"},
 
       # documentation
       {:ex_doc, ">= 0.0.0", only: :dev}
