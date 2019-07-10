@@ -14,7 +14,9 @@ defmodule X3m.Rabbit.Listener do
   def init({channel_manager, listener_name, definition}) do
     chan = Rabbit.ChannelManager.get_channel(channel_manager, listener_name)
     :ok = _set_queue(chan, definition)
-    {:ok, consumer_tag} = Basic.consume(chan, definition.queue.name)
+
+    {:ok, consumer_tag} =
+      Basic.consume(chan, definition.queue.name, self(), consumer_tag: to_string(listener_name))
 
     {:ok,
      %{

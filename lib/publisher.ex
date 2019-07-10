@@ -52,7 +52,7 @@ defmodule X3m.Rabbit.Publisher do
   end
 
   defp _declare(channel_manager, publisher_name, {:exchange, %{name: name} = definition}) do
-    chan = Rabbit.ChannelManager.get_channel(channel_manager, publisher_name, "exchange:#{name}")
+    chan = Rabbit.ChannelManager.get_channel(channel_manager, publisher_name)
 
     if definition[:options],
       do: :ok = Exchange.declare(chan, name, definition.type, definition.options)
@@ -61,7 +61,7 @@ defmodule X3m.Rabbit.Publisher do
   end
 
   defp _declare(channel_manager, publisher_name, {:queue, %{name: name} = definition}) do
-    chan = Rabbit.ChannelManager.get_channel(channel_manager, publisher_name, "queue:#{name}")
+    chan = Rabbit.ChannelManager.get_channel(channel_manager, publisher_name)
 
     if definition[:options],
       do: {:ok, %{queue: ^name}} = Queue.declare(chan, name, definition.options)
