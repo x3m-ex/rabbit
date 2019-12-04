@@ -6,7 +6,7 @@ defmodule X3m.Rabbit.Listener do
 
   ### Client API
 
-  def start_link(channel_manager, listener_name, definition, opts) when is_map(definition),
+  def start_link([channel_manager, listener_name, definition, opts]) when is_map(definition),
     do: GenServer.start_link(__MODULE__, {channel_manager, listener_name, definition}, opts)
 
   ### Server Callbacks

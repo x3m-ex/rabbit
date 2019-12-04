@@ -9,7 +9,7 @@ defmodule X3m.Rabbit.ChannelManager do
   @doc """
   Starts the RabbitMQ connection.
   """
-  def start_link(connection_name, opts),
+  def start_link([connection_name, opts]),
     do: GenServer.start_link(__MODULE__, connection_name, opts)
 
   def get_channel(server, consumer),

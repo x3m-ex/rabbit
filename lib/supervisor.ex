@@ -20,11 +20,11 @@ defmodule X3m.Rabbit.Supervisor do
     consumers_name = Module.concat(prefix, Consumers)
 
     children = [
-      worker(Rabbit.Connection, [bus_settings, [name: connection_name]]),
-      worker(Rabbit.ChannelManager, [connection_name, [name: channel_manager]]),
-      supervisor(Rabbit.Consumers, [channel_manager, configuration, [name: consumers_name]])
+      {Rabbit.Connection, [bus_settings, [name: connection_name]]},
+      {Rabbit.ChannelManager, [connection_name, [name: channel_manager]]},
+      {Rabbit.Consumers, [channel_manager, configuration, [name: consumers_name]]}
     ]
 
-    supervise(children, strategy: :rest_for_one)
+    Supervisor.init(children, strategy: :rest_for_one)
   end
 end
