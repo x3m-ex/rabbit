@@ -1,3 +1,5 @@
+# v0.1.4
+  * Added correct child_spec for Supervisor
 # v0.1.2
   * Match for 3 elemnt tuple headers received from amqp
 # v0.1.1

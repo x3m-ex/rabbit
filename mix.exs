@@ -4,7 +4,7 @@ defmodule X3m.Rabbit.MixProject do
   def project do
     [
       app: :x3m_rabbit,
-      version: "0.1.3",
+      version: "0.1.4",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/x3m-ex/rabbit",
