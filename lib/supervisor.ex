@@ -5,6 +5,9 @@ defmodule X3m.Rabbit.Supervisor do
 
   @moduledoc false
 
+  def start_link([prefix, bus_settings, configuration]),
+    do: start_link(prefix, bus_settings, configuration)
+
   def start_link(prefix, bus_settings, configuration) do
     prefix = Module.concat(prefix, X3m.Rabbit)
     name = Module.concat(prefix, Supervisor)
