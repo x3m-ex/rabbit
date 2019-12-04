@@ -6,7 +6,7 @@ defmodule X3m.Rabbit.Publisher do
 
   ## Client API
 
-  def start_link(channel_manager, publisher_name, targets, opts) when is_list(targets),
+  def start_link([channel_manager, publisher_name, targets, opts]) when is_list(targets),
     do: GenServer.start_link(__MODULE__, {channel_manager, publisher_name, targets}, opts)
 
   def publish(server, command, metadata \\ [])

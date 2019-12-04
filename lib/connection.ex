@@ -8,7 +8,7 @@ defmodule X3m.Rabbit.Connection do
   @doc """
   Starts the RabbitMQ connection.
   """
-  def start_link(bus_settings, opts),
+  def start_link([bus_settings, opts]),
     do: GenServer.start_link(__MODULE__, bus_settings, opts)
 
   def get_connection(server),
